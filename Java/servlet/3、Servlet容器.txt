@@ -1,0 +1,4 @@
+Servlet容器：运行Servlet、JSP、Filter等的软件环境
+	1、可以用来创建Servlet，并调用Servlet的相关生命周期方法。
+	2、JSP，Filter，Listener
+	

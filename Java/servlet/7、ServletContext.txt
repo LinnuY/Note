@@ -1,0 +1,38 @@
+ServletContext：
+	1、可以由ServletConfig获取：
+		ServletContext servletContext = servletConfig.getServletContext();
+	2、该对象代表当前WEB应用：可以认为ServletContext是当前WEB应用的一个大管家。可以从中获取当前WEB应用的各个方面的信息。
+		(1)获取当前WEB应用的初始化参数：
+			设置初始化参数：可以为所有的Servlet所获取，而Servlet的初始化参数只有用那个Servlet可以获取。
+				<!-- 配置当前WEB应用的初始化参数 -->
+				<context-param>
+				    <param-name>driver</param-name>
+			        <param-value>oracle.jdbc.OracleDriver</param-value>
+			    </context-param>
+			方法：
+				getInitPatameter()
+				getInitPatameterNames()
+			代码：
+				ServletContext servletContext = servletConfig.getServletContext();
+		        String driver = servletContext.getInitParameter("driver");
+		        System.out.println(driver);
+		        Enumeration<String> names1 = servletContext.getInitParameterNames();
+		        while(names.hasMoreElements()){
+		            String name = names1.nextElement();
+		            System.out.println("name:"+name);
+		        }
+		(2)获取当前WEB应用的某一个文件在服务器上的绝对路径，而不是部署前的路径：
+			getRealPath(String path);
+			代码：
+				String realPath = servletContext.getRealPath("/hello.jsp");
+        		System.out.println(realPath);
+		(3)获取当前WEB应用的名称
+			getContextPath()
+			代码：
+				String contextPath = servletContext.getContextPath();
+        		System.out.println(contextPath);
+		(4)获取当前WEB应用的某一个文件对应的输入流：
+			getResourceAsStream(String path):path的/为相对于当前WEB应用的根目录。
+			代码：
+				InputStream inputStream1 = servletContext.getResourceAsStream("/WEB-INF/classes/jdbc.properties");
+            	System.out.println("2:"+inputStream1);

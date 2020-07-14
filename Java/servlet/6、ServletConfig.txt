@@ -1,0 +1,24 @@
+ServletConfig：封装了Servlet的配置信息，并且可以获取ServletContext对象
+	1、配置Servlet的初始化参数
+		<!-- 配置Servlet的初始化参数，且节点必须在load-on-startup前面-->
+        <init-param>
+            <!--参数名-->
+            <param-name>password</param-name>
+            <!--参数值-->
+            <param-value>1230</param-value>
+        </init-param>
+    2、获取初始化参数：
+    	>getInitParameter(String name):获取指定参数名的初始化参数
+    	>getInitParameterNames()：获取参数名组成的Enumeration对象
+
+	    	String user = servletConfig.getInitParameter("user");
+	        System.out.println("user:"+user);
+
+	        Enumeration<String> names = servletConfig.getInitParameterNames();
+	        while(names.hasMoreElements()){
+	            String name = names.nextElement();
+	            String value = servletConfig.getInitParameter(name);
+	            System.out.println("Enumeration-->"+name+":"+value);
+	        }
+	3、获取Servlet的配置名称(了解)
+		

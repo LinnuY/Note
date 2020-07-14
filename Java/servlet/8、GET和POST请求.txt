@@ -1,0 +1,11 @@
+GET请求和POST请求：
+	1、使用GET请求传递参数：
+		(1)在浏览器地址栏中输入某个URL地址或单击网页上的一个超链接时，浏览器发出的HTTP请求方式为GET。
+		(2)如果网页中的<form>表单元素的method属性被设置为了"GET"，浏览器提交这个FORM表单时生成的HTTP请求消息的请求方式也为GET。
+		(3)使用GET请求方式给WEB服务器传递参数的格式：
+			http://www.xxx.com/index.jsp?name=linuy&password=123456
+		(4)使用GET方式传送的数据量一般限制在1KB以下。
+	2、使用POST请求传递参数：
+		(1)POST请求方式主要用于向 WEB 服务器端程序提交 FORM 表单中的数据：form表单method设置为POST
+		(2)POST方式将各个表单字段元素及其数据作为HTTP消息的实体内容发送给WEB服务器，传送的数据量要比使用使用GET方式传送的数据量大得多。
+			

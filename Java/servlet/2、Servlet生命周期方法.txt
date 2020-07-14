@@ -1,0 +1,6 @@
+Servlet生命周期方法：以下方法都是由Servlet容器负责调用
+	1、构造器：只有第一次请求Servlet时，创建Servlet的实例，调用构造器。
+		说明Servlet是单实例的。
+	2、init方法：只被调用一次。在创建好实例后立即被调用。用于初始化当前Servlet。
+	3、service：被多次调用。每次请求都会调用service方法。实际用于响应请求的。
+	4、destroy：只被调用一次。在当前Servlet所在的WEB应用被卸载前调用。用于释放当前Servlet所占用的资源。

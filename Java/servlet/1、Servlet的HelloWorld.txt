@@ -1,0 +1,17 @@
+Servlet的HelloWorld：
+	1、创建一个Servlet接口的实现类。
+		public class HelloServlet implements Servlet{}
+	2、在web.xml文件中配置和映射这个Servlet。
+		//配置和映射Servlet
+		<servlet>
+			//Servlet注册的名字
+        	<servlet-name>helloServlet</servlet-name>
+        	//Servlet的全类名
+        	<servlet-class>edu.xju.linuy.studytest1.HelloServlet</servlet-class>
+    	</servlet>
+    	<servlet-mapping>
+    		//需要和摸一个servlet节点的servlet-name子节点的文本节点一致
+        	<servlet-name>helloServlet</servlet-name>
+        	//映射具体的访问路径： / 代表当前WEB应用的根目录
+       		<url-pattern>/hello</url-pattern>
+    	</servlet-mapping>
