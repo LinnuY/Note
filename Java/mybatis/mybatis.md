@@ -561,7 +561,7 @@ password=han143650
 
     在实体类比较少的时候，使用第一种方式
 
-    如果实体类十分少，建议使用第二种
+    如果实体类十分少，建议使用第二种\+
 
     第一种可以DIY别名，第二种不行，如果非要改，需要在实体类上增加注解
 
@@ -570,6 +570,147 @@ password=han143650
     public class User
     ```
 
-    ### 4.5 设置
+    
 
-    这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为。
+### 4.5 设置
+
+​	这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为。
+
+### 4.6 其他配置
+
+ * plugins插件
+    	* mybatis-generator-core
+        	* mybatis-plus
+            	* 通用mapper
+
+### 4.7 映射器（mappers）
+
+​	MapperRegistry：注册绑定我们的Mapper文件：
+
+1. 方式一：
+
+```xml
+<mappers>
+        <mapper resource="./mapper/UserMapper.xml"/>
+    </mappers>
+```
+
+2. 方式二：使用class文件绑定注册
+
+```xml
+<mappers>
+        <mapper class="stu.lt.demo1.mapper.UserMapper"/>
+    </mappers>
+```
+
+​	注意点：
+
+	* 接口和他的Mapper配置文件必须同名
+	* 接口和他的Mapper配置文件必须在同一个文件夹下
+
+3. 方式三：使用扫描包进行注入绑定
+
+    ```xml
+    <mappers>
+            <package name="stu.lt.demo1.mapper"/>
+        </mappers>
+    ```
+
+    注意点同上！
+
+### 4.8 生命周期
+
+​	生命周期和作用域是至关重要的，因为错误的使用会导致非常严重的并发问题
+
+1. SqlSessionFactoryBuilder：
+
+    * 一旦创建了SqlSessionFactory，就不再需要它了
+    * 局部变量
+
+2. SqlSessionFactory：
+
+    * 说白了就是可以想象成：数据库连接池
+
+    * 一旦创建就应该在应用运行期间一直存在，**没有任何理由丢弃它或者重新创建另一个实例**
+    * 因此SqlSessionFactory最佳的作用域就是应用作用域
+    * 最简单的就是使用单例模式或者静态单例模式
+
+3. SqlSession
+
+    * 连接到连接池的一个请求
+    * SqlSession实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域
+    * 用完之后需要赶紧关闭，否则资源被占用
+
+![](C:\Users\Passenger\Desktop\Note\Java\images\mybatis\4.8_1.png)
+
+​	这里面的每一个Mapper，就代表一个具体的业务
+
+
+
+## 5. 解决属性名和字段名不一致的问题
+
+### 5.1 问题
+
+​	数据库中的字段
+
+![数据库中的字段](C:\Users\Passenger\Desktop\Note\Java\images\mybatis\5.0_1.png)
+
+​	新建一个项目，拷贝之前的，测试实体类字段不一致的情况
+
+```java
+public class User {
+
+    private int id;
+    private String name;
+    private String password;
+}
+```
+
+​	测试出现问题：
+
+![](../images/mybatis/5.0_2.png)
+
+```sql
+select * from user where id = #{id};
+//类型处理器
+select id,name,pwd from user where id = #{id};
+```
+
+### 5.2 解决方案
+
+ 1. 起别名
+
+    ```xml
+    <select id="getUserById" resultType="User" parameterType="_int">
+        select id,name,pwd as password from user where id = #{id};
+    </select>
+    ```
+
+2. resultMap
+
+    结果集映射
+
+| id   | name | pwd      |
+| ---- | ---- | -------- |
+| id   | name | password |
+
+```xml
+<select id="getUserById" resultMap="UserMap">
+    select * from user where id = #{id};
+</select>
+
+<!-- 结果型映射 -->
+<resultMap id="UserMap" type="User">
+    <!-- column数据库中的字段，properties实体类中的属性 -->
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="pwd" property="password"/>
+</resultMap>
+```
+
+* resultMap元素是MyBatis中最重要最强大的元素
+* resultMap的设计思想是，对于简单的语句根本不需要配置现实的结果映射，而对于复杂一点的语句只需要简单描述它们的关系就行了
+* resultMap最优秀的地方在于，即使你已经对它相当了解了，但是根本就不需要显式地用到他们
+
+
+
