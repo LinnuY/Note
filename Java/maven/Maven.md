@@ -1,4 +1,3 @@
-
 ## 自动化构建工具：Maven
 
 1. 目前掌握的技术  
@@ -111,7 +110,7 @@
 	1. Maven的核心程序中仅仅定义了抽象的生命周期，但是具体的工作必须由特定的插件来完成。而插件并不包含在Maven的核心程序中。
 	2. 当我们执行的Maven命令需要用到某些插件时，Maven核心程序会首先到本地仓库中查找。
 	3. 本地仓库的默认位置：[系统中当前用户的家目录]\.m2\repository  
-		C:\Users\Passenger\.m2\repository
+		C:\Users\Passenger\\.m2\repository
 	4. Maven核心程序如果在本地仓库中找不到需要的插件，那么它会自动连接外网，到中央仓库去下载  
 	5. 如果此时无法连接外网，则构建失败。
 	6. 修改默认本地仓库的位置可以让Maven核心程序到我们事先准备好的目录下查找插件  
@@ -119,7 +118,7 @@
 		2. 在settings.xml中找到localRepository标签  
 		3. 将```<localRepository>/path/to/local/repo</localRepository>```中取出  
 		4. 将标签体内容修改为已经准备好的Maven仓库目录```<localRepository></localRepository> ```  
-		
+	
 9. POM
 	1. 含义：Project Object Model 项目对象模型  
 		DOM：Document Object Model 文档对象模型  
@@ -140,7 +139,7 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-core</artifactId>
 		<version>4.0.0.RELEASE</version>
-	```  
+	```
 	```org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar```  
 
 11. 仓库
@@ -159,7 +158,7 @@
 	1. Maven解析依赖信息时会到本地仓库中寻找被依赖的Jar包。  
 		对于我们自己开发的Maven工程，使用install命令就可以进入仓库。  
 	2. 依赖的范围  
-		<img src="./images/maven/12_1.png" width="70%">  
+		<img src="../images/maven/12_1.png" width="70%">  
 		1. compile范围依赖  
 			* 对主程序是否有效：有效  
 			* 对测试程序是否有效：有效  
@@ -199,38 +198,54 @@
 |  生命周期阶段  |  插件目标  |  插件  |
 |  ----  |  ---- |  ---- |
 |  compile  |  compile  |  maven-compiler-plugin  |
-|  test-compile  |  testCompile  |  maven-compiler-plugin  |  
+|  test-compile  |  testCompile  |  maven-compiler-plugin  |
 
 14. 依赖[高级]  
-	1. 依赖的传递性  
-		1. 好处：可以传递的依赖不必在每个模块工程中都重复声明，在“最下面”工程中依赖一次即可。  
-		2. 注意：非compile范围的依赖不能传递。所以在各个工程模块中，如果有需要就得重复声明依赖。  
-	2. 依赖的排除  	
-		1. 如果有不稳定的jar包需要进行排除  
-		2. 依赖排除的设置方式  
-		在```<dependency></dependency>```中写入  
-```xml
-			<exclusions>
-				<exclusion>
-					<groupId></groupId>
-					<artifactId></artifactId>
-				</exclusion>
-			<exclusions>
-```  
-		即可  
-		Tips：排除的也会依赖，即被排除的依赖，在继承的里面也会被排除。  
-	3. 依赖的原则
-		1. 依赖的原则  
-			1. 作用：解决模块工程之间的jar包冲突问题  
-			2. 验证路径最短优先原则  
-			<img src="./images/maven/14_1.png" width="70%">  
-			3. 验证路径相同时，先声明者优先(先声明指的是dependency标签的声明顺序)  
-			4. 统一管理依赖的版本  
-				1. 要对各种包进行升级  
-					1. 使用properties标签内使用自定义标签统一声明版本号  
-```xml
-						<properties>
-							<标签名></标签名>
-						</properties>
-```   
-					2. 在需要统一版本的位置，使用${自定义标签名}引用声明的版本号```<version>${标签名}</version>```  
+    1. 依赖的传递性  
+    	1. 好处：可以传递的依赖不必在每个模块工程中都重复声明，在“最下面”工程中依赖一次即可。  
+    	2. 注意：非compile范围的依赖不能传递。所以在各个工程模块中，如果有需要就得重复声明依赖。  
+    	
+    2. 依赖的排除  	
+    	1. 如果有不稳定的jar包需要进行排除  
+    	
+    	2. 依赖排除的设置方式  
+    	    在```<dependency></dependency>```中写入  
+    	
+    	  ```xml
+        <exclusions>
+    	  	<exclusion>
+    	  		<groupId></groupId>
+    	  		<artifactId></artifactId>
+    	  	</exclusion>
+    	  <exclusions>
+    	  ```
+    	
+    	即可  
+    	Tips：排除的也会依赖，即被排除的依赖，在继承的里面也会被排除。  
+    	
+    3. 依赖的原则
+
+       1. 依赖的原则  
+
+          1. 作用：解决模块工程之间的jar包冲突问题  
+
+          2. 验证路径最短优先原则  
+             		<img src="../images/maven/14_1.png" width="70%">  
+
+          3. 验证路径相同时，先声明者优先(先声明指的是dependency标签的声明顺序)  
+
+          4. 统一管理依赖的版本  
+
+             1. 要对各种包进行升级
+
+                1. 使用properties标签内使用自定义标签统一声明版本号  
+
+                   ```xml
+                   <properties>
+                   	<标签名></标签名>
+                   </properties>
+                   ```
+
+                   
+
+                2. 在需要统一版本的位置，使用${自定义标签名}引用声明的版本号```<version>${标签名}</version>```  
