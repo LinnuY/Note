@@ -59,10 +59,16 @@ cp ~/tmp.txt /tmp/tmp.txt
    tar -jxvf pdsh-2.34.tar.bz2
    ```
 
-
 ## 修改本机hostname
 
 ```bash
 sudo echo archlinux > /etc/hostname
+```
+
+## 打开系统服务的两种方法
+
+```bash
+sudo service ssh start
+sudo systemctl start sshd
 ```
 

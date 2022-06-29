@@ -1,0 +1,29 @@
+1、JS排序：
+var arr = ["A1A9", "A1A10", "A2A1", "A1A7", "A1A11", "A2A11"];
+先按第一个数值升序，第一个数值相同情况下再按第二个数值升序
+排序输出：A1A7, A1A9, A1A10, A1A11, A2A1, A2A11
+
+
+2、JAVA分别使用Comparable接口和Comparator接口实现：	
+	Student类有如下属性：
+	private String name;	//姓名
+	private String clazz;	//班级
+	private int age;		//年龄
+要求先按班级升序、班级相同再按姓名降序、班级姓名都相同的情况下按年龄升序
+	Student s1 = new Student("101班", "admin", 20);
+	Student s2 = new Student("103班", "hello", 20);
+	Student s3 = new Student("101班", "admin", 23);
+	Student s4 = new Student("103班", "admin", 21);
+	Student s5 = new Student("105班", "hello", 22);
+	Student s6 = new Student("101班", "hello", 24);
+
+
+3、正则表达式练习：
+	a、获得页面中所有的邮箱地址
+	b、获得页面中的图片地址和标题
+
+
+
+
+
+	
